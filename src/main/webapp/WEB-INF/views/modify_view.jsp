@@ -36,7 +36,6 @@
 				<td colspan="2">
 					<input type="submit" value="수정" /> &nbsp;&nbsp; 
 					<a href="list">목록</a> &nbsp;&nbsp; 
-					<a href="modify_view">수정</a> &nbsp;&nbsp; 
 					<a href="">삭제</a>
 				</td>
 			</tr>

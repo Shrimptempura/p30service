@@ -20,6 +20,7 @@ import com.tech.prjm09.dto.BDto;
 import com.tech.prjm09.dto.ReBrdimgDto;
 import com.tech.prjm09.service.BContentViewService;
 import com.tech.prjm09.service.BListService;
+import com.tech.prjm09.service.BModifyService;
 import com.tech.prjm09.service.BServiceInter;
 import com.tech.prjm09.util.SearchVO;
 
@@ -169,16 +170,9 @@ public class BController {
 	@PostMapping("modify")
 	public String modify(HttpServletRequest request, Model model) {
 		System.out.println("modify() ctr");		
-//		model.addAttribute("request", request);
-//		command = new BModifyCommand();
-//		command.execute(model);
-		
-		String bid = request.getParameter("bid");
-		String bname = request.getParameter("bname");
-		String btitle = request.getParameter("btitle");
-		String bcontent = request.getParameter("bcontent");
-		
-		iDao.modify(bid, bname, btitle, bcontent);
+		model.addAttribute("request", request);
+		bServiceInter = new BModifyService(iDao);
+		bServiceInter.execute(model);
 		
 		return "redirect:list";
 	}
