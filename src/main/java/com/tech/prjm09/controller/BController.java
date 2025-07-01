@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.tech.prjm09.dao.IDao;
 import com.tech.prjm09.dto.BDto;
 import com.tech.prjm09.dto.ReBrdimgDto;
+import com.tech.prjm09.service.BListService;
+import com.tech.prjm09.service.BServiceInter;
 import com.tech.prjm09.util.SearchVO;
 
 import jakarta.servlet.ServletOutputStream;
@@ -27,123 +29,28 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class BController {
 	
-	private final IDao iDao;
+	private BServiceInter bServiceInter;
 	
 	@Autowired
-	public BController(IDao iDao) {
-		this.iDao = iDao;
-	}
+	private IDao iDao;
 	
 	@GetMapping("/")
 	public String index() {
 		return "index";
 	}
-
 	
 	@RequestMapping("list")
 	public String list(HttpServletRequest request, SearchVO searchVO, Model model) {
 		System.out.println("list() ctr");
 //		command = new BListCommand();
 //		command.execute(model);
-		// searching
-		String btitle = "";
-		String bcontent = "";
 		
-		String[] brdTitle = request.getParameterValues("searchType");
-		if (brdTitle != null) {
-			for (int i = 0; i < brdTitle.length; i++) {
-				System.out.println("brdTitle: " + brdTitle[i]);
-			}			
-		}
-		
-		
-		if (brdTitle != null) {
-			for (String value : brdTitle) {
-				if (value.equals("btitle")) {
-					model.addAttribute("btitle", "true");
-					btitle = "btitle";
-				}
-				
-				if (value.equals("bcontent")) {
-					model.addAttribute("bcontent", "true");
-					bcontent = "bcontent";
-				}
-			}			
-		}
-		
-		String searchKeyword = request.getParameter("sk");
-		if (searchKeyword == null) {
-			searchKeyword = "";
-		}
-		model.addAttribute("searchKeyword", searchKeyword);
-		// ---------------------------------------
-		// 전체글 개수 변형
-		int total = 0;
-		
-		if (btitle.equals("btitle") && bcontent.equals("")) {
-			total = iDao.selectBoardCount(searchKeyword, "1");
-			System.out.println("total11111111111");
-		} else if (btitle.equals("") && bcontent.equals("bcontent")) {
-			total = iDao.selectBoardCount(searchKeyword, "2");
-			System.out.println("total22222222222");
-		} else if (btitle.equals("btitle") && bcontent.equals("bcontent")) {
-			total = iDao.selectBoardCount(searchKeyword, "3");
-			System.out.println("total33333333333");
-		} else if (btitle.equals("") && bcontent.equals("")) {
-			total = iDao.selectBoardCount(searchKeyword, "4");
-			System.out.println("total44444444444");
-		}
-		
-		
-		
-		// 글의 총 개수
-//		int total = iDao.selectBoardCount();
-		
-		System.out.println("total: " + total);
-		searchVO.pageCalculate(total);
-		
-		// paging
-		String strPage = request.getParameter("page");
-		// null 검사
-		if (strPage == null) {
-			strPage = "1";
-		}
-		
-		int page = Integer.parseInt(strPage);
-		searchVO.setPage(page);
-	
-		System.out.println("total: " + total);
-		System.out.println("click page: " + strPage);
-		System.out.println("pageStart: " + searchVO.getPageStart());
-		System.out.println("pageEnd: " + searchVO.getPageEnd());
-		System.out.println("pageTotal: " + searchVO.getTotPage());
-		System.out.println("rowStart: " + searchVO.getRowStart());
-		System.out.println("rosEnd: " + searchVO.getRowEnd());
-		
-		int rowStart = searchVO.getRowStart();
-		int rowEnd = searchVO.getRowEnd();
-		
-//		ArrayList<BDto> list = null;
-		if (btitle.equals("btitle") && bcontent.equals("")) {
-//			total = iDao.selectBoardCount(searchKeyword, "1");
-			model.addAttribute("list", iDao.list(rowStart, rowEnd, searchKeyword, "1"));
-			System.out.println("total11111111111");
-		} else if (btitle.equals("") && bcontent.equals("bcontent")) {
-			model.addAttribute("list", iDao.list(rowStart, rowEnd, searchKeyword, "2"));
-			System.out.println("total22222222222");
-		} else if (btitle.equals("btitle") && bcontent.equals("bcontent")) {
-			model.addAttribute("list", iDao.list(rowStart, rowEnd, searchKeyword, "3"));
-			System.out.println("total33333333333");
-		} else if (btitle.equals("") && bcontent.equals("")) {
-			model.addAttribute("list", iDao.list(rowStart, rowEnd, searchKeyword, "4"));
-			System.out.println("total44444444444");
-		}
-		
-		
-//		model.addAttribute("list", list);
-		
-		model.addAttribute("totRowCnt", total);
+		//
+		model.addAttribute("request", request);
 		model.addAttribute("searchVo", searchVO);
+		bServiceInter = new BListService(iDao);
+		
+		bServiceInter.execute(model);
 		
 		return "list";
 	}
