@@ -1,0 +1,91 @@
+collaborators invite-> gmail accepts;
+pedding check -> setting-general-Rules-rulesets-new ruleset
+
+mkdir - :C/ "cotest253" - git init;
+st - new tab - add - direct path explore - "cotest253"
+
+gitbash
+vi m1, input m1 11, git commit "m1s1"
+
+st
+find branch main
+mk branch dev, checkout dev
+
+gb-dev
+vi d1 111, git commit d1s1
+
+st
+find main
+
+gb
+git remote -v
+
+setting-add-remotename(origin) path(git https)
+git remote -v
+git push --set 'tab' -upstream origin main 'en'
+
+st
+find dev
+
+git push --set -upstream origin dev
+
+web github - find repository check main branch default
+setting - 'General - Default branch' <change default> 보호, main->dev update, understand
+rules-ruleset-new branch ruleset- 'Rulese Name : 'protect main'', enforcement status -> Active
+Tagets- Branch targeting criteria -> add target = Incrude by pattern -> main
+checking : Block force pushes, Restrict deletions, 'Requre a pull request before merging'
+	- Required approvals : number 1;
+	- Require conversation resolution before merging
+[create]
+======================
+collarbo
+find dev -> mkbranch feat/name1
+vi tj1 1111 tj1s1 commit
+git push --set-upstream origin feat/tj1
+web- default(dev), compare & pull request -check[tj1 -> dev merge requet], choose(delete branch)
+=======================
+master
+web- 'pull request' - new pull request(dev <- dev --- main <- dev) create pull request
+Add a title: merging into main - create pull request
+--> REVIEW REQUIRED, MERGING IS BLOCKED
+
+last mergigng -> Review changes- Write('메인에 머지 확인해 주세요') - submit review
+=======================
+collabo
+web- pull request- check- files changed - Review changes Write(good) - Approve - submit review
+
+st
+fine dev - pull, main-pull
+
+tj1 delete branch before All Requset pull branch and find any branch delete tj1
+=======================
+master
+find dev mkbranch - feat/m1(기능)
+vi devm1 devm1 111 wq and commit
+
+git push --set-upstream origin feat/m1
+web -repository -comare pull request - 'feat/m1' - merge confirm --(delete branch)
+	if passed delete branch -repository in branches 'Active branches'-> delete branch
+
+web -repository pull request main <- dev, 'merge into main2(기능)' create pull request
+REVIEW REQUIRED, MERGING IS BLOCKED
+========================
+collabo
+web- repository-pull request-file changed-review changes-Write(okkkk)-approve-submit review -> Merge pull request - confirm merge
+
+st
+ALL PULL
+==============
+master
+st ALL PULL, unusing branch local delete (ex: feat/m1..)
+
+
+
+
+
+
+
+
+
+
+
