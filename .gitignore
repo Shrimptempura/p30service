@@ -76,9 +76,6 @@ local.properties
 # Log file
 *.log
 
-# target/classes/meta-inf
-target/
-
 # BlueJ files
 *.ctxt
 
