@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.tech.prjm09.dao.IDao;
 import com.tech.prjm09.dto.BDto;
 import com.tech.prjm09.dto.ReBrdimgDto;
+import com.tech.prjm09.service.BContentViewService;
 import com.tech.prjm09.service.BListService;
 import com.tech.prjm09.service.BServiceInter;
 import com.tech.prjm09.util.SearchVO;
@@ -42,9 +43,6 @@ public class BController {
 	@RequestMapping("list")
 	public String list(HttpServletRequest request, SearchVO searchVO, Model model) {
 		System.out.println("list() ctr");
-//		command = new BListCommand();
-//		command.execute(model);
-		
 		//
 		model.addAttribute("request", request);
 		model.addAttribute("searchVo", searchVO);
@@ -60,24 +58,7 @@ public class BController {
 		System.out.println("wirte_view() ctr");
 		return "write_view";
 	}
-	
-//	@RequestMapping("write")
-//	public String write(HttpServletRequest request, Model model) {
-//		System.out.println("write() ctr");
-//		
-//		// db에 글쓰기 동작
-////		model.addAttribute("request", request);
-////		command = new BWriteCommand();
-////		command.execute(model);
-//		
-//		String bname = request.getParameter("bname");
-//		String btitle = request.getParameter("btitle");
-//		String bcontent = request.getParameter("bcontent");
-//		iDao.write(bname, btitle, bcontent);
-//		
-//		return "redirect:list";
-//	}
-	
+		
 	@RequestMapping("write")
 	public String write(MultipartHttpServletRequest mtfRequest, Model model) {
 		System.out.println("write() ctr");
@@ -162,19 +143,10 @@ public class BController {
 	@GetMapping("content_view")
 	public String content_view(HttpServletRequest request, Model model) {
 		System.out.println("content_view() ctr");		
-//		model.addAttribute("request", request);
-//		command = new BContentCommand();
-//		command.execute(model);
+		model.addAttribute("request", request);
 		
-		String bid = request.getParameter("bid");
-		iDao.upHit(bid);
-				
-		BDto dto = iDao.contentView(bid);
-		model.addAttribute("content_view", dto);
-		
-		ArrayList<ReBrdimgDto> imgList = iDao.selectImg(bid);
-		model.addAttribute("imgList", imgList);
-		
+		bServiceInter = new BContentViewService(iDao);
+		bServiceInter.execute(model);
 		
 		return "content_view";
 	}
